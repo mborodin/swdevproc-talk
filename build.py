@@ -14,14 +14,17 @@ config = {'images': os.getcwd() + '/images',
 
 
 def gen_images(imgpath):
-    files = [f for f in os.listdir(imgpath) if f.endswith('.svg')]
+    files = [imgpath + '/' + f for f in os.listdir(imgpath)
+             if f.endswith('.svg')]
     for fname in files:
         texname = fname.replace('.svg', '.tex')
         with open(texname, 'w') as fout:
-            fout.write(convert_svg(fname, figonly=True))
+            fout.write(convert_svg(fname, codeoutput='figonly'))
 
 
 def compile_pdf(texfile):
+    proc = Popen(['pdflatex', texfile])
+    proc.communicate()
     proc = Popen(['pdflatex', texfile])
     proc.communicate()
 
@@ -29,7 +32,9 @@ def compile_pdf(texfile):
 def cleanup(texfile, imgpath):
     os.unlink(texfile.replace('.tex', '.aux'))
     os.unlink(texfile.replace('.tex', '.log'))
-    [os.unlink(f) for f in os.listdir(imgpath) if f.endswith('.tex')]
+    [os.unlink(imgpath + '/' + f)
+     for f in os.listdir(imgpath)
+     if f.endswith('.tex')]
 
 
 def main():
