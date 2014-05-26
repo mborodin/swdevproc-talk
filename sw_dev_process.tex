@@ -1,0 +1,54 @@
+
+\documentclass{beamer}
+\usetheme{Darmstadt}
+\usecolortheme{seahorse}
+\usepackage[utf8]{inputenc}
+\usefonttheme{professionalfonts}
+\usepackage{tikz}
+\usepackage{tabularx}
+\usepackage{colortbl}
+\usepackage{graphicx}
+%\usepackage{epstopdf}
+
+\usetikzlibrary{calc}
+\pgfdeclarelayer{background}
+\pgfdeclarelayer{foreground}
+\pgfsetlayers{background,main,foreground}
+
+\graphicspath{images/}
+
+\let\oldfootnotesize\footnotesize
+\renewcommand*{\footnotesize}{\oldfootnotesize\tiny}
+
+\setbeamertemplate{note page}[plain]
+
+\title{Software Development Processes}
+\author{Maksym Borodin}
+
+\begin{document}
+\frame{\titlepage}
+\frame{\frametitle{Table of contents}\tableofcontents}
+
+\section{Introduction}
+\input{intro}
+
+\section{Product lifecycle}
+\input{lifecycle}
+
+\section{Development process}
+\input{process}
+
+\section{Development in HEP}
+\input{hep}
+
+\section{Tools}
+\input{tools}
+
+\section{Useful methodics}
+\input{methodics}
+
+\section{Other info}
+\input{other}
+
+\end{document}
+
