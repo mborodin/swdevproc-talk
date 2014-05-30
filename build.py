@@ -22,6 +22,22 @@ def gen_images(imgpath):
             fout.write(convert_svg(fname, codeoutput='figonly'))
 
 
+def gen_images2(imgpath):
+    # inkscape -z -D -e Scrum_process.png Scrum_process.svg
+    files = [imgpath + '/' + f for f in os.listdir(imgpath)
+             if f.endswith('.svg')]
+    process = [f for f in files
+               if (
+                   not os.path.isfile(f.replace('.svg', '.png'))
+                   or os.path.getmtime(f.replace('.svg', '.png'))
+                   < os.path.getmtime(f)
+               )]
+    for f in process:
+        inkscape = Popen(['inkscape', '-z', '-D', '-e',
+                          f.replace('.svg', '.png'), f])
+        inkscape.communicate()
+
+
 def compile_pdf(texfile):
     proc = Popen(['pdflatex', texfile])
     proc.communicate()
@@ -45,7 +61,7 @@ def main():
         logging.warning('Image directory %s is not accessible'
                         % config['images'])
     else:
-        gen_images(config['images'])
+        gen_images2(config['images'])
     compile_pdf(config['texfile'])
     cleanup(config['texfile'], config['images'])
 
